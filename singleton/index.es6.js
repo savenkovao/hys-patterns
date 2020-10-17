@@ -1,44 +1,61 @@
 'use strict';
 
-/* ES6 */
-class Singleton {
+/* ES6 singleton pattern realizations */
+
+/* ********************************************************************* */
+
+/* As an object literal assigned to constant  */
+const SingletonLiteral = {
+    name: 'ololo_1',  // Could be overwritten externally
+    greet: function() {  // Could be overwritten externally
+        console.log(`Hello!, ${ this.name }`);
+    }
+};
+
+/* Run */
+// SingletonLiteral.greet() // Hello!, ololo_1
+// SingletonLiteral.name = 'ololo_2';
+// SingletonLiteral.greet() // Hello!, ololo_2
+
+/* ********************************************************************* */
+
+
+
+/* ********************************************************************* */
+
+/* As a class */
+class SingletonClass {
     static _instance; // Could be overwritten externally
     name;
 
     constructor(name) {
-        if (Singleton._instance) {
+        if (SingletonClass._instance) {
             // If Singleton has been already created
-            return Singleton._instance
+            return SingletonClass._instance
         }
 
         // If Singleton created first time
         this.name = name;
 
-        Singleton._instance = this; // Set class instance
+        SingletonClass._instance = this; // Set class instance
     }
 
-    greet() {
-        return 'Hello, ' + this.name
+    greet() {  // Could be overwritten externally
+        return `Hello!, ${ this.name }`;
     }
 }
 
 /* Run */
-const a = new Singleton('ololo_1');
-const b = new Singleton('ololo_2');
+// const a = new SingletonClass('ololo_1');
+// const b = new SingletonClass('ololo_2');
+// console.log(a === b) // true
+// console.log(a.name) // ololo_1
+// console.log(b.name) // ololo_1
 
-console.log(a === b) // true
+/* ********************************************************************* */
 
-console.log(a.name) // ololo_1
-console.log(b.name) // ololo_1
-console.log(a.greet()) // Hello, ololo_1
 
-// Object.freeze?
-// Singleton._instance = null;
-// const c = new Singleton('ololo_3');
-// console.log(c.name) // ololo_3
 
-b.name = 'ololo_2';
+/* + All ES5 realizations */
 
-console.log(a.name) // ololo_2
-console.log(a.greet()) // Hello, ololo_2
 

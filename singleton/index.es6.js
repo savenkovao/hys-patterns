@@ -6,16 +6,17 @@
 
 /* As an object literal assigned to constant  */
 const SingletonLiteral = {
-    name: 'ololo_1',  // Could be overwritten externally
-    greet: function() {  // Could be overwritten externally
+    name: 'ololo_1',
+    greet: function() {
         console.log(`Hello!, ${ this.name }`);
     }
 };
 
 /* Run */
-// SingletonLiteral.greet() // Hello!, ololo_1
-// SingletonLiteral.name = 'ololo_2';
-// SingletonLiteral.greet() // Hello!, ololo_2
+// let a = SingletonLiteral;
+// let b = SingletonLiteral;
+// console.log(a===b); // true
+// console.log(b.name); // ololo_1
 
 /* ********************************************************************* */
 
@@ -40,7 +41,7 @@ class SingletonClass {
         SingletonClass._instance = this; // Set class instance
     }
 
-    greet() {  // Could be overwritten externally
+    greet() {
         return `Hello!, ${ this.name }`;
     }
 }
@@ -49,7 +50,6 @@ class SingletonClass {
 // const a = new SingletonClass('ololo_1');
 // const b = new SingletonClass('ololo_2');
 // console.log(a === b) // true
-// console.log(a.name) // ololo_1
 // console.log(b.name) // ololo_1
 
 /* ********************************************************************* */

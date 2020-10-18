@@ -5,7 +5,9 @@
 /* ********************************************************************* */
 
 /* As a constructor function (public instance) */
+
 var instance = null; // Could be overwritten
+
 function ConstructorFunctionSingleton(name) {
     if(instance) {
         return instance;
@@ -24,11 +26,9 @@ function ConstructorFunctionSingleton(name) {
 
 /* Run */
 // var a = new ConstructorFunctionSingleton('ololo_1');
-// var b = new ConstructorFunctionSingleton('ololo_2');
+// var b = ConstructorFunctionSingleton('ololo_2');
 // console.log(a === b) // true
-// console.log(a.name) // ololo_1
 // console.log(b.name) // ololo_1
-// console.log(a.greet()) // Hello, ololo_1
 
 /* ********************************************************************* */
 
@@ -68,8 +68,6 @@ var ModuleSingleton = (() => {
 // var a = new ModuleSingleton('ololo_1');
 // var b = ModuleSingleton('ololo_2');
 // console.log(a === b) // true
-// console.log(a.name) // ololo_1
 // console.log(b.name) // ololo_1
-// console.log(a.greet()) // Hello, ololo_1
 
 /* ********************************************************************* */

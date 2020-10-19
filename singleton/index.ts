@@ -6,7 +6,7 @@
 
 /* As class to use WITHOUT 'new' */
 class NoConstructorSingleton {
-    public name: string;
+    public name: string = '';
     private static _instance: NoConstructorSingleton;
 
     // Constructor should be private to protect calls with new
@@ -33,9 +33,7 @@ class NoConstructorSingleton {
 // a.name = 'ololo_1';
 // const b = NoConstructorSingleton.getInstance();
 // console.log(a === b) // true
-// console.log(a.name) // ololo_1
 // console.log(b.name) // ololo_1
-// console.log(a.greet()) // Hello, ololo_1
 
 /* ********************************************************************* */
 
@@ -45,17 +43,18 @@ class NoConstructorSingleton {
 
 /* * As class to use WITH 'new' */
 class ConstructorSingleton {
-    public name: string;
-    private readonly _instance: ConstructorSingleton; // Assigned once in constructor - could be readonly
+    public name: string = '';
+
+    private static _instance: ConstructorSingleton | null = null;
 
     constructor(name: string) {
-        if (this._instance) {
-            return this._instance;
+        if (ConstructorSingleton._instance) {
+            return ConstructorSingleton._instance;
         }
 
         this.name = name;
 
-        this._instance = this;
+        ConstructorSingleton._instance = this;
     }
 
     public greet(): string {
@@ -63,13 +62,11 @@ class ConstructorSingleton {
     }
 }
 
-/* Run */
-// const a = new ConstructorSingleton('ololo_1');
-// const b = new ConstructorSingleton('ololo_2');
-// console.log(a === b) // true
-// console.log(a.name) // ololo_1
-// console.log(b.name) // ololo_1
-// console.log(a.greet()) // Hello, ololo_1
+const a = new ConstructorSingleton('ololo_1');
+const b = new ConstructorSingleton('ololo_2');
+console.log(a === b) // true
+console.log(b.name) // ololo_1
+console.log(a.name) // ololo_1
 
 /* ********************************************************************* */
 

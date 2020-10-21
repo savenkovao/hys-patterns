@@ -1,6 +1,7 @@
 /* TS decorator pattern realizations */
 
 /* ********************************************************************* */
+
 function checkPermissionDecorator(
     target: any,
     propertyKey: string,
@@ -8,12 +9,28 @@ function checkPermissionDecorator(
 ): PropertyDescriptor {
     const originMethod = descriptor.value;
 
-    descriptor.value = function(...args: Array<any>) {
+    descriptor.value = function (...args: Array<any>) {
         if (isAdmin()) {
             return originMethod.apply(this, args);
         }
 
-        alert( 'You do not have enough permissions!' );
+        alert('You do not have enough permissions!');
+    }
+
+    return descriptor;
+}
+
+function logDecorator(
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+) {
+    const originMethod = descriptor.value;
+
+    descriptor.value = function (...args: Array<any>) {
+        console.log(`Function arguments: ${args}`);
+
+        return originMethod.apply(this, args);
     }
 
     return descriptor;
@@ -27,20 +44,43 @@ function isAdmin(): boolean {
     return adminRules;
 }
 
-/* TODO add log decorator */
 class User {
-    name: string = 'Alala';
-
+    @logDecorator
     @checkPermissionDecorator
-    public editProfile(): void {
-        console.log('ololo_2');
+    public editProfile(id: number, ...args: any): void {
+        console.log(`ololo_${id}`);
     }
 }
 
 const user = new User();
-user.editProfile(); // 'You do not have enough permissions'
+user.editProfile(777, 333);
+// Function arguments: 777,333
+// 'You do not have enough permissions'
 
 /* ********************************************************************* */
 
 
-/* + All ES5, ES6 realizations */
+/* ********************************************************************* */
+
+/* As a Class decorator */
+
+function classLogDecorator<T extends { new(...constructorArgs: any[]) }>(constructorFunction: T) {
+    return function (...args) {
+        console.log(`Class arguments: ${args}`);
+        return new constructorFunction(...args);
+    }
+}
+
+@classLogDecorator
+class Driver {
+    constructor(name: string, age: number) {
+        /* Some constructor logic */
+    }
+}
+
+const driver = new Driver('Ololo', 77); // [ 'Ololo', 77 ]
+
+/* ********************************************************************* */
+
+
+/* + All ES5, ES7 realizations */

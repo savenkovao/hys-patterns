@@ -12,31 +12,50 @@ function isAdmin() {
     return adminRules;
 }
 
+function logDecorator(func) {
+    return function () {
+        console.log('Function arguments: ', [].slice.call(arguments).join(', '));
+        return func.apply(this, arguments);
+    }
+}
+
 /* Check permissions decorator function */
 function checkPermissionDecorator(func) {
-    return function() {
+    return function () {
         if (isAdmin()) {
             return func.apply(this, arguments);
         }
 
-        alert( 'You do not have enough permissions' );
+        alert('You do not have enough permissions');
     }
 }
 
-function editProfile() {
+function editProfile(id) {
     /* Some edit profile logic... */
-    console.log('ololo_1');
+    console.log('ololo_' + id);
 }
-/* TODO add log decorator */
-editProfile = checkPermissionDecorator(editProfile);
-editProfile() // 'You do not have enough permissions'
 
-const user = {
+editProfile = checkPermissionDecorator(editProfile);
+editProfile = logDecorator(editProfile);
+
+editProfile(777);
+// Function arguments:  777
+// 'You do not have enough permissions'
+
+var user = {
     name: 'Alala',
-    editProfile: checkPermissionDecorator(function (){
-        console.log('ololo_2');
-    })
-}
-user.editProfile(); // 'You do not have enough permissions'
+    editProfile:
+        logDecorator(
+            checkPermissionDecorator(
+                function (id) {
+                    console.log('ololo_' + id);
+                }
+            )
+        )
+};
+
+user.editProfile(333);
+// Function arguments:  333
+// 'You do not have enough permissions'
 
 /* ********************************************************************* */

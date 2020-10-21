@@ -3,13 +3,29 @@
 /* ES7 decorator pattern realizations */
 /* ********************************************************************* */
 
+/* As a method decorator */
+
 function checkPermissionDecorator(target, property, descriptor) {
-    target.descriptor.value = function() {
+    const originMethod = descriptor.value;
+
+    descriptor.value = function(...args) {
         if (isAdmin()) {
-            return target.descriptor.value.apply(this, arguments);
+            return originMethod.value.apply(this, args);
         }
 
         alert( 'You do not have enough permissions!' );
+    }
+
+    return descriptor;
+}
+
+function logDecorator(target, property, descriptor) {
+    const originMethod = descriptor.value;
+
+    descriptor.value = function (...args) {
+        console.log(`Function arguments: ${args}`);
+
+        return originMethod.apply(this, args);
     }
 
     return descriptor;
@@ -25,16 +41,42 @@ function isAdmin() {
 
 
 class User {
-    name = 'Alala';
-
+    @logDecorator
     @checkPermissionDecorator
-    editProfile() {
-        console.log('ololo_2');
+    editProfile(id) {
+        console.log(`ololo_${id}`);
     }
 }
 
 let user = new User();
-user.editProfile();
+user.editProfile(777, 333);
+// Function arguments: 777,333
+// 'You do not have enough permissions'
+
+/* ********************************************************************* */
+
+
+
+/* ********************************************************************* */
+
+/* As a Class decorator */
+
+function classLogDecorator(Class) {
+    return (...args) => {
+        console.log(`Class arguments: ${args}`);
+        return new Class(...args);
+    };
+}
+
+@classLogDecorator
+class Driver {
+    constructor(name, age) {
+        /* Some constructor logic */
+    }
+}
+
+const driver = new Driver('Ololo', 77); // [ 'Ololo', 77 ]
+
 /* ********************************************************************* */
 
 

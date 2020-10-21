@@ -23,7 +23,7 @@ function logDecorator(target, property, descriptor) {
     const originMethod = descriptor.value;
 
     descriptor.value = function (...args) {
-        console.log(`Function arguments: ${args}`);
+        console.log(`Method arguments: ${args}`);
 
         return originMethod.apply(this, args);
     }
@@ -50,7 +50,7 @@ class User {
 
 let user = new User();
 user.editProfile(777, 333);
-// Function arguments: 777,333
+// Method arguments: 777,333
 // 'You do not have enough permissions'
 
 /* ********************************************************************* */

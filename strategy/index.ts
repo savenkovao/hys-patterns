@@ -1,51 +1,96 @@
+'use strict';
+
 /* TS strategy pattern realizations */
-
 /* ********************************************************************* */
-class Context {
-    private strategy: Strategy;
+/* As a function */
+(function () {
 
-    constructor(strategy: Strategy) {
-        this.strategy = strategy;
+    type Strategy = () => void;
+
+    class Notifier {
+        constructor(private readonly strategy: Strategy) { }
+
+        public notify(): void {
+            return this.strategy();
+        };
     }
 
-    public setStrategy(strategy: Strategy) {
-        this.strategy = strategy;
-    }
+    const successNotifierStrategy: Strategy = () => { // Concrete strategy
+        console.log("Success!");
+    };
 
-    public doSomeBusinessLogic(): void {
-        console.log('Context: Sorting data using the strategy (not sure how it\'ll do it)');
-        const result = this.strategy.doAlgorithm(['a', 'b', 'c', 'd', 'e']);
-        console.log(result.join(','));
-    }
-}
+    const warningNotifierStrategy: Strategy = () => { // Concrete strategy
+        console.log("Warning!");
+    };
 
-interface Strategy {
-    doAlgorithm(data: string[]): string[];
-}
+    const errorNotifierStrategy: Strategy = () => { // Concrete strategy
+        console.log("Error!");
+    };
 
-class ConcreteStrategyA implements Strategy {
-    public doAlgorithm(data: string[]): string[] {
-        return data.sort();
-    }
-}
+    const successNotifier = new Notifier(successNotifierStrategy);
+    const warningNotifier = new Notifier(warningNotifierStrategy);
+    const errorNotifier = new Notifier(errorNotifierStrategy);
 
-class ConcreteStrategyB implements Strategy {
-    public doAlgorithm(data: string[]): string[] {
-        return data.reverse();
-    }
-}
+    /* Select one of notifiers according to some condition */
 
-const context = new Context(new ConcreteStrategyA());
-console.log('Client: Strategy is set to normal sorting.');
-context.doSomeBusinessLogic();
+    successNotifier.notify(); // Success!
+    warningNotifier.notify(); // Warning!
+    errorNotifier.notify(); // Error!
 
-console.log('');
-
-console.log('Client: Strategy is set to reverse sorting.');
-context.setStrategy(new ConcreteStrategyB());
-context.doSomeBusinessLogic();
-
+}());
 /* ********************************************************************* */
 
 
-/* + All ES5, ES6 realizations */
+/* ********************************************************************* */
+/* As a class */
+(function () {
+
+    abstract class Strategy { // Abstract strategy class
+        public execute(): void {  // Method that should be overridden in inheritor
+            console.log('These method should be overridden');
+        }
+    }
+
+    class Notifier {
+        constructor(private readonly strategy: Strategy) { }
+
+        public notify(): void {
+            return this.strategy.execute();
+        };
+    }
+
+
+    class SuccessNotifierStrategy extends Strategy {  // Concrete strategy
+        public execute(): void {
+            console.log('Success!');
+        }
+    }
+
+    class WarningNotifierStrategy extends Strategy {  // Concrete strategy
+        public execute(): void {
+            console.log('Warning!');
+        }
+    }
+
+    class ErrorNotifierStrategy extends Strategy {  // Concrete strategy
+        public execute(): void {
+            console.log('Error!');
+        }
+    }
+
+    var successNotifier = new Notifier(new SuccessNotifierStrategy());
+    var warningNotifier = new Notifier(new WarningNotifierStrategy());
+    var errorNotifier = new Notifier(new ErrorNotifierStrategy());
+
+    /* Select one of notifiers according to some condition */
+
+    successNotifier.notify(); // Success!
+    warningNotifier.notify(); // Warning!
+    errorNotifier.notify(); // Error!
+
+}());
+
+/* ********************************************************************* */
+
+
+/* + All ES5 realizations */

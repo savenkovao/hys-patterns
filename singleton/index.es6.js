@@ -5,55 +5,57 @@
 /* ********************************************************************* */
 
 /* As an object literal assigned to constant  */
-const SingletonLiteral = {
-    name: 'ololo_1',
-    greet: function() {
-        console.log(`Hello!, ${ this.name }`);
-    }
-};
+(function () {
 
-/* Run */
-// let a = SingletonLiteral;
-// let b = SingletonLiteral;
-// console.log(a===b); // true
-// console.log(b.name); // ololo_1
+    const SingletonLiteral = {
+        name: 'ololo_1',
+        greet: function () {
+            console.log(`Hello!, ${this.name}`);
+        }
+    };
 
+    let a = SingletonLiteral;
+    let b = SingletonLiteral;
+    console.log(a === b); // true
+    console.log(b.name); // ololo_1
+
+}());
 /* ********************************************************************* */
-
 
 
 /* ********************************************************************* */
 
 /* As a class */
-class SingletonClass {
-    static _instance; // Could be overwritten externally
-    name;
+(function () {
 
-    constructor(name) {
-        if (SingletonClass._instance) {
-            // If Singleton has been already created
-            return SingletonClass._instance
+    class SingletonClass {
+        static _instance; // Could be overwritten externally
+        name;
+
+        constructor(name) {
+            if (SingletonClass._instance) {
+                // If Singleton has been already created
+                return SingletonClass._instance
+            }
+
+            // If Singleton created first time
+            this.name = name;
+
+            SingletonClass._instance = this; // Set class instance
         }
 
-        // If Singleton created first time
-        this.name = name;
-
-        SingletonClass._instance = this; // Set class instance
+        greet() {
+            return `Hello!, ${this.name}`;
+        }
     }
 
-    greet() {
-        return `Hello!, ${ this.name }`;
-    }
-}
+    const a = new SingletonClass('ololo_1');
+    const b = new SingletonClass('ololo_2');
+    console.log(a === b) // true
+    console.log(b.name) // ololo_1
 
-/* Run */
-// const a = new SingletonClass('ololo_1');
-// const b = new SingletonClass('ololo_2');
-// console.log(a === b) // true
-// console.log(b.name) // ololo_1
-
+}());
 /* ********************************************************************* */
-
 
 
 /* + All ES5 realizations */

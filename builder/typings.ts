@@ -19,7 +19,7 @@ export enum Pages {
     Profile = 'Profile',
     InstancesList = 'InstancesList',
     InstancesRead = 'InstancesRead',
-    instancesEdit = 'instancesEdit',
+    InstancesEdit = 'instancesEdit',
     AdvancedInfo = 'AdvancedInfo',
 }
 
@@ -47,6 +47,12 @@ export interface FreeAppConfig extends AppConfig {
         main: string;
         footer: string;
     }
+}
+
+export interface SimpleAppConfig extends AppConfig {
+}
+
+export interface AdvancedAppConfig extends AppConfig {
 }
 
 export interface BuilderModel<T extends AppConfig = AppConfig> {

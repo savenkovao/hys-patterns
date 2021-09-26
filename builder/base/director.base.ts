@@ -8,6 +8,7 @@ export class Director implements DirectorModel {
     }
 
     public buildMin(): AppConfig {
+        this.reset();
         this._builder.setLicense();
         this._builder.setPages();
         this._builder.setSpecific();
@@ -17,6 +18,7 @@ export class Director implements DirectorModel {
 
 
     public buildMax(): AppConfig {
+        this.reset();
         this._builder.setLicense();
         this._builder.setCRUDPermissions();
         this._builder.setPages();

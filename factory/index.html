@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Factory</title>
+    <script type="module" src="dist/index.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 16px;
+        }
+
+        .form {
+            display: flex;
+            margin: 24px auto;
+        }
+
+        .form * {
+            margin: 15px;
+            flex: 1;
+        }
+
+        .profile {
+            padding: 16px 32px;
+            max-width: 350px;
+            border-radius: 4px;
+            box-shadow: 3px 3px 3px 1px #c1c1c1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create user</h1>
+
+        <form class="form" id="user-form">
+            <input type="text" name="name" value="Ololo">
+
+            <select name="type">
+                <option value="" disabled selected>Role</option>
+                <option value="visitor">Visitor</option>
+                <option value="editor">Editor</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <button>Create</button>
+        </form>
+
+        <div class="profile" id="profile">
+            <h3 id="user-name">Name: <strong></strong></h3>
+            <ul>
+                <li id="user-id">ID: <strong></strong></li>
+                <li id="user-type">Type: <strong></strong></li>
+                <li id="user-date">Created: <strong></strong></li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -4,23 +4,34 @@ function createId(date: number) {
     return `id_${date / 2}`
 }
 
-export class BaseUser implements IBaseUser {
+export abstract class BaseUser implements IBaseUser {
     public id: string;
     public name: string;
     public created: number | string;
-    public type: UserType;
+    public abstract type: UserType;
 
     constructor(name: string) {
         const date: number = new Date().getTime();
         this.id = createId(date);
         this.name = name;
-        this.type = null;
         this.created = date;
     }
+
+    public abstract edit(): void;
+
+    public abstract createUser(): void;
 }
 
 export class Visitor extends BaseUser implements IBaseUser {
     public type: UserType = UserType.Visitor;
+
+    public edit (): void {
+        throw Error;
+    }
+
+    public createUser(): void {
+        throw Error;
+    }
 }
 
 export class Editor extends BaseUser implements IBaseUser {
@@ -28,6 +39,10 @@ export class Editor extends BaseUser implements IBaseUser {
 
     public edit: () => void = (): void => {
         console.log('Document saved');
+    }
+
+    public createUser(): void {
+        throw Error;
     }
 }
 
